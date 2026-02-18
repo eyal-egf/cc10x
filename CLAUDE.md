@@ -27,11 +27,16 @@ IMPORTANT: NEVER use Edit, Write, or Bash (for code changes) without first invok
 | When task involves... | Invoke |
 |-----------------------|--------|
 | MongoDB, schema, queries, indexes | `mongodb-agent-skills:mongodb-schema-design` or `mongodb-query-and-index-optimize` |
-| React, Next.js, frontend, UI | `react-best-practices` |
+| React, Next.js, frontend, UI | `cc10x:react-patterns` or `react-best-practices` |
+| Vue, Nuxt, Pinia, Vue Router, Vue SFC | `cc10x:vue-patterns` |
+| Laravel, PHP, Eloquent, Blade, Artisan | `cc10x:laravel-patterns` |
+| Playwright, E2E testing, browser testing | `cc10x:playwright-patterns` |
+| Frontend design, building UI pages, visual design, component creation | `frontend-design` |
 
 [Skills Index]
 |mongodb-agent-skills:{mongodb-schema-design/SKILL.md,mongodb-query-and-index-optimize/SKILL.md}
 |vercel-agent-skills:{react-best-practices/SKILL.md}
+|cc10x:{react-patterns/SKILL.md,vue-patterns/SKILL.md,laravel-patterns/SKILL.md,playwright-patterns/SKILL.md}
 ```
 
 **To add your own skills:** Add rows to the table and Skills Index above. Run `/help` to see all available skills.

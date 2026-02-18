@@ -502,9 +502,37 @@ WHEN any CC10X REM-FIX task COMPLETES:
 | External: new tech (post-2024), unfamiliar library, complex integration (auth, payments) | cc10x:github-research | planner, bug-investigator |
 | Debug exhausted: 3+ local attempts failed, external service error | cc10x:github-research | bug-investigator |
 | User explicitly requests: "research", "github", "octocode", "find on github", "how do others", "best practices" | cc10x:github-research | planner, bug-investigator |
+| BUILD workflow + frontend task (user asks to build/create UI, page, component, design, layout, visual) | frontend-design | component-builder, planner |
+| Codebase framework: React (package.json has react/next) | cc10x:react-patterns | all agents |
+| Codebase framework: Vue (package.json has vue/nuxt) | cc10x:vue-patterns | all agents |
+| Codebase tooling: Playwright (package.json has @playwright/test) | cc10x:playwright-patterns | all agents |
 
 **Detection runs BEFORE agent invocation. Pass detected skills in SKILL_HINTS.**
 **Also check CLAUDE.md Complementary Skills table and include matching skills in SKILL_HINTS.**
+
+### Codebase Framework Detection (runs ONCE per workflow, after MEMORY_LOADED)
+
+**Detection command:**
+```
+Grep(pattern="\"(react|vue|next|nuxt|@playwright/test|@formkit|primevue)\"", path="package.json")
+```
+
+**Mapping:**
+- `react` or `next` found → Add cc10x:react-patterns to SKILL_HINTS
+- `vue` or `nuxt` found → Add cc10x:vue-patterns to SKILL_HINTS
+- `@playwright/test` found → Add cc10x:playwright-patterns to SKILL_HINTS
+- `@formkit` or `primevue` found → (covered within vue-patterns, no separate skill)
+- Both react+vue found (monorepo) → Add both
+- Neither found → No framework skill
+
+**Fallback (no package.json):**
+```
+Glob(pattern="**/*.vue", path="src") → Vue
+Glob(pattern="**/*.tsx", path="src") → React
+Glob(pattern="**/*.spec.ts", path="e2e") OR Glob(pattern="playwright.config.*") → Playwright
+```
+
+**Cache in activeContext.md:** `- Framework: {React|Vue|None} (auto-detected)`
 
 ## Skill Loading Hierarchy (DEFINITIVE)
 
