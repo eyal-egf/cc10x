@@ -16,10 +16,10 @@ User interfaces exist to help users accomplish tasks. Every UI decision should m
 
 ## Focus Areas (Reference Pattern)
 
-- **React component architecture** (hooks, context, performance)
+- **Component architecture** (composition, encapsulation, reusability)
 - **Responsive CSS** with Tailwind/CSS-in-JS
-- **State management** (Redux, Zustand, Context API)
-- **Frontend performance** (lazy loading, code splitting, memoization)
+- **State management** (component-local vs shared, URL sync)
+- **Frontend performance** (lazy loading, code splitting, virtualization)
 - **Accessibility** (WCAG compliance, ARIA labels, keyboard navigation)
 
 ## Approach (Reference Pattern)
@@ -34,8 +34,8 @@ User interfaces exist to help users accomplish tasks. Every UI decision should m
 
 **Every frontend deliverable should include:**
 
-- [ ] Complete React component with props interface
-- [ ] Styling solution (Tailwind classes or styled-components)
+- [ ] Complete component with typed props/inputs
+- [ ] Styling solution (Tailwind classes or CSS modules)
 - [ ] State management implementation if needed
 - [ ] Basic unit test structure
 - [ ] Accessibility checklist for the component
@@ -69,12 +69,12 @@ Before writing any UI code, commit to answers for:
 
 **Always handle states in this order:**
 
-```typescript
-// CORRECT order
-if (error) return <ErrorState error={error} onRetry={refetch} />;
-if (loading && !data) return <LoadingState />;
-if (!data?.items.length) return <EmptyState />;
-return <ItemList items={data.items} />;
+```
+// CORRECT order (pseudo-code — see your framework skill for syntax)
+if error        → show ErrorState with retry action
+if loading AND no data → show LoadingState
+if data is empty     → show EmptyState
+otherwise        → show data
 ```
 
 **Loading State Decision Tree:**
@@ -160,11 +160,11 @@ Do we have data? → Yes, with items: Show data
 | Flex child truncation | Add `min-w-0` to flex children (critical!) |
 | Empty strings/arrays | Show placeholder, not broken UI |
 
-```tsx
-{/* Flex truncation pattern - min-w-0 is REQUIRED */}
-<div className="flex items-center gap-2 min-w-0">
-  <Avatar />
-  <span className="truncate min-w-0">{user.name}</span>
+```html
+<!-- Flex truncation pattern - min-w-0 is REQUIRED -->
+<div class="flex items-center gap-2 min-w-0">
+  <img class="avatar" />
+  <span class="truncate min-w-0">User Name</span>
 </div>
 ```
 
@@ -252,14 +252,14 @@ User Flow: Create Account
 | **Error focus** | Focus first error field on submit |
 | **Shared hit targets** | Checkbox/radio label + control = one clickable area |
 
-```tsx
+```html
 <input
   type="email"
-  autoComplete="email"
-  spellCheck={false}
-  inputMode="email"
-  // Never: onPaste={(e) => e.preventDefault()}
+  autocomplete="email"
+  spellcheck="false"
+  inputmode="email"
 />
+<!-- Never block paste on any input -->
 ```
 
 ## Visual Design Checklist
@@ -303,106 +303,17 @@ Move beyond safe, centered layouts:
 
 ## Component Patterns
 
-### Buttons
-```tsx
-// Primary action button with all states
-<button
-  type="button"
-  onClick={handleAction}
-  disabled={isLoading || isDisabled}
-  aria-busy={isLoading}
-  aria-disabled={isDisabled}
-  className={cn(
-    'btn-primary',
-    isLoading && 'btn-loading'
-  )}
->
-  {isLoading ? (
-    <>
-      <Spinner aria-hidden />
-      <span>Processing...</span>
-    </>
-  ) : (
-    'Submit'
-  )}
-</button>
-```
+**Framework-specific component examples are in your framework skill:**
+- React projects → see `react-patterns` skill
+- Vue projects → see `vue-patterns` skill
 
-### Forms with Validation
-```tsx
-<form onSubmit={handleSubmit} noValidate>
-  <div className="form-field">
-    <label htmlFor="email">
-      Email <span aria-hidden>*</span>
-      <span className="sr-only">(required)</span>
-    </label>
-    <input
-      id="email"
-      type="email"
-      value={email}
-      onChange={handleChange}
-      aria-invalid={errors.email ? 'true' : undefined}
-      aria-describedby={errors.email ? 'email-error' : 'email-hint'}
-      required
-    />
-    <span id="email-hint" className="hint">
-      We'll never share your email
-    </span>
-    {errors.email && (
-      <span id="email-error" role="alert" className="error">
-        {errors.email}
-      </span>
-    )}
-  </div>
-</form>
-```
-
-### Loading States
-```tsx
-function DataList({ isLoading, data, error }) {
-  if (isLoading) {
-    return (
-      <div aria-live="polite" aria-busy="true">
-        <Spinner />
-        <span>Loading items...</span>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div role="alert" className="error-state">
-        <p>Failed to load items: {error.message}</p>
-        <button onClick={retry}>Try again</button>
-      </div>
-    );
-  }
-
-  if (!data?.length) {
-    return (
-      <div className="empty-state">
-        <p>No items found</p>
-        <button onClick={createNew}>Create your first item</button>
-      </div>
-    );
-  }
-
-  return <ul>{data.map(item => <Item key={item.id} {...item} />)}</ul>;
-}
-```
-
-### Error Messages
-```tsx
-// Inline error with recovery action
-<div role="alert" className="error-banner">
-  <Icon name="error" aria-hidden />
-  <div>
-    <p className="error-title">Upload failed</p>
-    <p className="error-detail">File too large. Maximum size is 10MB.</p>
-  </div>
-  <button onClick={selectFile}>Choose different file</button>
-</div>
-```
+**All component patterns must follow:**
+- Proper ARIA attributes for interactive elements (`aria-busy`, `aria-invalid`, `aria-describedby`)
+- All four states handled: loading, error, empty, success
+- Keyboard accessibility for all controls
+- Disabled state during async operations
+- Error messages with `role="alert"` and recovery actions
+- Labels on all form inputs (`<label>` or `aria-label`)
 
 ## Responsive Design Checklist
 
@@ -416,7 +327,7 @@ function DataList({ isLoading, data, error }) {
 
 | Rule | Why | Implementation |
 |------|-----|----------------|
-| **Virtualize large lists** | >50 items kills performance | Use `virtua`, `react-window`, or `content-visibility: auto` |
+| **Virtualize large lists** | >50 items kills performance | Use `virtua`, `@tanstack/virtual`, or `content-visibility: auto` |
 | **No layout reads in render** | Causes forced reflow | Avoid `getBoundingClientRect`, `offsetHeight` in render |
 | **Lazy load images** | Reduces initial load | `loading="lazy"` on below-fold images |
 | **Prioritize critical images** | Faster LCP | `fetchpriority="high"` or Next.js `priority` |
@@ -437,10 +348,7 @@ function DataList({ isLoading, data, error }) {
 
 **Benefits:** Shareable links, back button works, refresh preserves state.
 
-```tsx
-// Use nuqs, next-usequerystate, or similar
-const [tab, setTab] = useQueryState('tab', { defaultValue: 'overview' })
-```
+Use a URL state library (e.g., `nuqs` for React, `vue-router` query for Vue) to sync UI state with URL parameters.
 
 ## Touch & Mobile
 
