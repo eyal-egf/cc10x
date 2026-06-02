@@ -16,7 +16,7 @@
   Fail-closed gates &nbsp;·&nbsp; survives compaction &nbsp;·&nbsp; zero prompt spam &nbsp;·&nbsp; self-tested orchestration
 </p>
 
-**Current version:** 10.1.20
+**Current version:** 10.1.20-eyal.1 (fork of upstream 10.1.20)
 
 ---
 

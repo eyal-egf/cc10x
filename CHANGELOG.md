@@ -1,5 +1,40 @@
 # Changelog
 
+## [10.1.20-eyal.1] - 2026-06-02
+
+### Fork build — Vue/React/Laravel/Playwright pattern skills + frontend-design integration
+
+This is a downstream fork build on top of upstream `10.1.20`. No upstream
+contract changes. All router invariants, agent contracts, memory model,
+verification rigor, and prompt invariants are preserved.
+
+Fork-specific additions:
+
+- New skills (4) under `plugins/cc10x/skills/`:
+  - `vue-patterns` — Vue 3 Composition API, Pinia, TypeScript, Nuxt
+  - `react-patterns` — React 18+ hooks, Context, state management, TypeScript
+  - `laravel-patterns` — Eloquent, middleware, validation, testing
+  - `playwright-patterns` — POM, locators, fixtures, CI/CD
+- `cc10x-router` now emits SKILL_HINTS for the four new skills via a
+  Codebase Framework Detection block under Section 13 (runs once per
+  workflow after `MEMORY_LOADED`). Detection sources: `package.json`
+  for `react`/`next`/`vue`/`nuxt`/`@playwright/test`/`@formkit`/`primevue`,
+  and `composer.json` for `laravel/framework`. Falls back to `Glob` over
+  `.vue`/`.tsx`/`playwright.config.*`/`artisan` when no package manifest
+  is present.
+- `cc10x-router` adds a Frontend Design Skill Hint: when a BUILD request
+  mentions UI/page/component/design/layout/visual, `frontend-design` is
+  added to SKILL_HINTS for `component-builder` and `planner`.
+- `CLAUDE.md` complementary-skills table adds rows for the four new
+  skills and the `frontend-design` plugin.
+- `cc10x_harness_audit.py` now exempts `cc10x_context_migration.py` from
+  the state-root drift guard (the migration script must reference the
+  legacy `.claude/cc10x/` path as its source). Live harness bootstrap
+  manifest passes 3/3 after this change.
+
+Upstream content merged in this build: 131 commits spanning the
+v6.0.20 → v10.1.20 product-line releases.
+
 ## [10.1.20] - 2026-05-06
 
 ### Escape the Claude Code sensitive-file gate

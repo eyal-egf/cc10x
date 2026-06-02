@@ -6,21 +6,21 @@
     "url": "https://github.com/romiluz13"
   },
   "metadata": {
-    "description": "cc10x v10.1.20 - Harmony-hardened Claude Code plugin with router-kernel orchestration, mandatory workflow playbooks, contradiction cleanup, phase-local handoffs, early memory capture, review-fan-in hardening, and professional objectivity hard rules",
-    "version": "10.1.20"
+    "description": "cc10x v10.1.20-eyal.1 - Fork of romiluz13/cc10x with Vue/React/Laravel/Playwright pattern skills and frontend-design plugin integration on top of upstream's router-kernel orchestration",
+    "version": "10.1.20-eyal.1"
   },
   "plugins": [
     {
       "name": "cc10x",
-      "description": "Trust-first Claude Code plugin with specialized subagents, composable skills, agreement-first planning, TDD-first phase execution, adversarial review, BDD-style verification, proof-of-work workflow artifacts, plugin-native hooks, and optional user-configured Bright Data/Octocode research acceleration.",
-      "version": "10.1.20",
+      "description": "Eyal's fork of cc10x. Adds Vue/React/Laravel/Playwright pattern skills and frontend-design integration on top of upstream's router-kernel orchestration, specialized subagents, TDD-first phase execution, adversarial review, BDD-style verification, proof-of-work workflow artifacts, and plugin-native hooks.",
+      "version": "10.1.20-eyal.1",
       "author": {
-        "name": "Rom Iluz",
-        "email": "rom@iluz.net",
-        "url": "https://github.com/romiluz13"
+        "name": "Eyal Barta",
+        "email": "eyal.barta@evergreenfinance.co.uk",
+        "url": "https://github.com/eyal-egf"
       },
-      "homepage": "https://github.com/romiluz13/cc10x",
-      "repository": "https://github.com/romiluz13/cc10x",
+      "homepage": "https://github.com/eyal-egf/cc10x",
+      "repository": "https://github.com/eyal-egf/cc10x",
       "license": "MIT",
       "keywords": [
         "workflow-routing",

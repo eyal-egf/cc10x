@@ -1,6 +1,6 @@
 # CC10X Agent Contract Registry
 
-> **Status note:** Aligned to the live agent and router prompt stack as of 2026-05-06 (`v10.1.20`; last structural sync `v10.1.19` on 2026-04-12, followed by the `.claude/cc10x/` → `.cc10x/` state-root migration in `v10.1.20`).
+> **Status note:** Aligned to the live agent and router prompt stack as of 2026-05-06 (`v10.1.20`; fork build `v10.1.20-eyal.1`; last structural sync `v10.1.19` on 2026-04-12, followed by the `.claude/cc10x/` → `.cc10x/` state-root migration in `v10.1.20`. Fork `v10.1.20-eyal.1` adds Vue/React/Laravel/Playwright pattern skill hints with no agent-contract changes.)
 > **Purpose:** Quick contract map for maintainers. This document summarizes what the live prompts already enforce; it does not add new behavior.
 
 ## Write Agents
